@@ -1,98 +1,86 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { SafeAreaView } from "react-native-safe-area-context";
+import "../../input.css";
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import { Trending } from "@/api/client";
+import Movie from "@/interface/movies";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useCallback, useState } from "react";
+import { FlatList, Image, StyleSheet, View } from "react-native";
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import { useTheme } from "@/hooks/use-theme";
 
 export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+  const [movies, setMovies] = useState<Movie[]>([]);
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+  useFocusEffect(
+    useCallback(() => {
+      fetchMovies();
+    }, []),
+  );
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+  const fetchMovies = async () => {
+    try {
+      // setIsLoading(true);
+      const response = await Trending.Movies();
+      
+      const movies = response.results;
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
+      setMovies(movies);
+    } catch (error) {
+      console.error("Fetch quizzes error:", error);
+      // Alert.alert('Error', 'Gagal memuat data quiz');
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+
+  const renderItem = ({ item }: { item: Movie }) => (
+    <ThemedView className="items-center" style={styles.card}>
+      <Image
+        source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }}
+        style={styles.poster}
+      />
+      <ThemedText type="link" className="text-center" style={styles.title}>
+        {item.original_title}
+      </ThemedText>
     </ThemedView>
+  );
+  const theme = useTheme();
+
+  return (
+    <SafeAreaView style={[{ backgroundColor: theme.background }]}>
+      <View className="sticky">
+        <ThemedText className="text-center h-10 mb-2">Moviescx</ThemedText>
+      </View>
+
+      <FlatList
+        data={movies}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderItem}
+        className="px-5"
+        horizontal={true}
+        initialNumToRender={2}
+        removeClippedSubviews={true}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
+  card: {
+    alignItems: "center",
+    margin: 20,
+    borderColor: "#a6da95",
+    borderWidth: 2,
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+  poster: {
+    width: 150,
+    height: 200,
   },
   title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+    width: 140,
+    fontWeight: 'bold',
   },
 });
