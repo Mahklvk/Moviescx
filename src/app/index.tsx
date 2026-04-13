@@ -3,9 +3,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import "../../input.css";
 
 import { Header } from "@/components/ui/header";
-import { Filters } from "@/components/ui/trending";
+import { Trendings } from "@/components/ui/trending";
 import { useTheme } from "@/hooks/use-theme";
-import React, { useCallback } from "react";
+import React from "react";
 
 import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView, View } from "react-native";
@@ -37,7 +37,7 @@ export default function HomeScreen() {
               <ThemedText className="text-center mt-5">Trending</ThemedText>
             </View>
           </View>
-          <Filters />
+          <Trendings />
         </View>
       </SafeAreaView>
     </ScrollView>
