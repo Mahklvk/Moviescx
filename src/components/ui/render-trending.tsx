@@ -13,15 +13,16 @@ type Props = {
   item: Media;
 };
 
-export const RenderTrending: React.FC<Props> = React.memo(({ item}) => {
+export const RenderTrending: React.FC<Props> = React.memo(({ item }) => {
   return (
     <ThemedView className="items-center" style={styles.card}>
       <Image
         source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }}
         style={styles.poster}
+        alt={"original_title" in item? item.title : item.name}
       />
       <ThemedText type="link" className="text-center" style={styles.title}>
-        {"original_title" in item ? item.original_title : item.original_name}
+        {"original_title" in item ? item.title : item.name}
       </ThemedText>
     </ThemedView>
   );
