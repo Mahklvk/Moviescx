@@ -40,7 +40,7 @@ export const RenderTopRated: React.FC<Props> = React.memo(({ item }) => {
               <ThemedText
                 style={{ color: "white", fontSize: 20, fontWeight: "bold" }}
               >
-                {item.original_name}
+                {item.name}
               </ThemedText>
     
               <ThemedText style={{ color: "white", fontSize: 14 }}>
