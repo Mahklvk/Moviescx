@@ -3,32 +3,29 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
 import { ThemedText } from "../themed-text";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { RenderTrending } from "./render-trending";
 import Tv from "@/interface/tv"
 import Movie from "@/interface/movies";
 
 type Media = Movie | Tv;
 
-export function Filters() {
+export function Trendings() {
   const [filterTime, setFilterTime] = useState<"day" | "week">("day");
   const [filterTrending, setFilterTrending] = useState<"movie" | "tv">("movie");
-
+  
   const { data: trending = [] } = useQuery({
     queryKey: ["tv", filterTime, filterTrending],
     queryFn: () => Trending.Trending(filterTime, filterTrending),
     select: (data) => data.results,
     staleTime: 1000 * 60 * 5, // cache 5 menit
   });
-
     const renderTrending = useCallback(({ item }: { item: Media }) => {
       return <RenderTrending item={item} />;
     }, []);
   
   return (
     <View>
-
-    
     <View style={{ flexDirection: "row", margin: 10, alignItems: "center" }}>
       {/* Kiri: Movie / TV */}
       <View style={{ flexDirection: "row", gap: 10 }}>
