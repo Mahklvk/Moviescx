@@ -3,6 +3,7 @@ import { Double } from "react-native/Libraries/Types/CodegenTypes";
 export default interface Movie {
     'adult': boolean,
     'id': number,
+    'title' : string,
     'backdrop_path': string,
     'poster_path': string,
     'original_language': string,
