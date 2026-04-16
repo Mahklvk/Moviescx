@@ -16,11 +16,11 @@ export const Colors = {
     textSecondary: "#60646C",
   },
   dark: {
-    text: "#ffffff",
-    background: "#24273a",
-    backgroundElement: "#8087a2",
-    backgroundSelected: "#939ab7",
-    textSecondary: "#b8c0e0",
+    text: "#cdd6f4",
+    background: "#1e1e2e",
+    backgroundElement: "#b4befe",
+    backgroundSelected: "#89b4fa",
+    textSecondary: "#bac2de",
   },
 } as const;
 
