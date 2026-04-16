@@ -2,8 +2,8 @@ import Tv from "@/interface/tv";
 import { Image } from "expo-image";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { ThemedText } from "../themed-text";
-import { ThemedView } from "../themed-view";
+import { ThemedText } from "../../themed-text";
+import { ThemedView } from "../../themed-view";
 import { LinearGradient } from "expo-linear-gradient";
 
 type Props = {
@@ -54,6 +54,7 @@ export const RenderTopRated: React.FC<Props> = React.memo(({ item }) => {
 const styles = StyleSheet.create({
   backdrop: {
     width: 400,
-    height: 300,
+    height: 150,
+    borderRadius: 10
   },
 });
