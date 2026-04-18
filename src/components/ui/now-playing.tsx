@@ -11,23 +11,22 @@ type Media = Movie
 
 export function NowPlaying() {
 
-  const { data: nowPlaying = [] } = useQuery({
+  const { data: nowPlaying = [], isLoading } = useQuery({
     queryKey: ["nowPlaying"],
     queryFn: () => Trending.NowPlaying(),
     select: (data) => data.results,
     staleTime: 1000 * 60 * 5, // cache 5 menit
   });
-  const renderNowPlaying = useCallback(({ item }: { item: Media }) => {
-    return <RenderNowPlaying item={item} />;
-  }, []);
 
   return (
     <View>
       <FlatList
         className="item-center"
-        data={nowPlaying}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderNowPlaying}
+        data={isLoading ? Array(5).fill({}) : nowPlaying}
+        keyExtractor={(_, index) => index.toString()}
+        renderItem={({ item }) => (
+          <RenderNowPlaying item={item as Media} isLoading={isLoading} />
+        )}
         indicatorStyle="white"
         initialNumToRender={3}
         horizontal={true}

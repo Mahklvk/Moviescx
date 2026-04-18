@@ -13,15 +13,12 @@ export function Trendings() {
   const [filterTime, setFilterTime] = useState<"day" | "week">("day");
   const [filterTrending, setFilterTrending] = useState<"movie" | "tv">("movie");
 
-  const { data: trending = [] } = useQuery({
+  const { data: trending = [], isLoading } = useQuery({
     queryKey: ["tv", filterTime, filterTrending],
     queryFn: () => Trending.Trending(filterTime, filterTrending),
     select: (data) => data.results,
     staleTime: 1000 * 60 * 5, // cache 5 menit
   });
-  const renderTrending = useCallback(({ item }: { item: Media }) => {
-    return <RenderTrending item={item} />;
-  }, []);
 
   return (
     <View>
@@ -55,9 +52,11 @@ export function Trendings() {
       </View>
       <FlatList
         className="item-center"
-        data={trending}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderTrending}
+        data={isLoading ? Array(5).fill({}) : trending}
+        keyExtractor={(_, index) => index.toString()}
+        renderItem={({ item }) => (
+          <RenderTrending item={item as Media} isLoading={isLoading} />
+        )}
         indicatorStyle="white"
         initialNumToRender={3}
         horizontal={true}

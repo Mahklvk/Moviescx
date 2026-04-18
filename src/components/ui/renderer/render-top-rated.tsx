@@ -5,12 +5,17 @@ import { StyleSheet, View } from "react-native";
 import { ThemedText } from "../../themed-text";
 import { ThemedView } from "../../themed-view";
 import { LinearGradient } from "expo-linear-gradient";
-
+import CardSkeleton from "../skeleton";
 type Props = {
-    item: Tv
+  item: Tv,
+  isLoading?: boolean,
 }
 
-export const RenderTopRated: React.FC<Props> = React.memo(({ item }) => {
+export const RenderTopRated: React.FC<Props> = React.memo(
+  ({ item, isLoading }) => {
+        if (isLoading) {
+          return <CardSkeleton type="carousel"/>;
+        }
   return (
     <ThemedView className="items-center">
             <Image

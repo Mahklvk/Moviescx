@@ -1,17 +1,14 @@
 import { Trending } from "@/api/trending";
 import Movie from "@/interface/movies";
-import Tv from "@/interface/tv";
 import { useQuery } from "@tanstack/react-query";
-import { useCallback, useState } from "react";
-import { FlatList, TouchableOpacity, View } from "react-native";
-import { ThemedText } from "../themed-text";
+import { useCallback } from "react";
+import { FlatList, View } from "react-native";
 import { RenderUpcoming } from "./renderer/render-upcoming";
 
-type Media = Movie
+type Media = Movie;
 
 export function Upcoming() {
-
-  const { data: upcoming = [] } = useQuery({
+  const { data: upcoming = [], isLoading } = useQuery({
     queryKey: ["upComing"],
     queryFn: () => Trending.Upcoming(),
     select: (data) => data.results,
@@ -25,9 +22,11 @@ export function Upcoming() {
     <View>
       <FlatList
         className="item-center"
-        data={upcoming}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderUpcoming}
+        data={isLoading ? Array(5).fill({}) : upcoming}
+        keyExtractor={(_, index) => index.toString()}
+        renderItem={({ item }) => (
+          <RenderUpcoming item={item as Media} isLoading={isLoading} />
+        )}
         indicatorStyle="white"
         initialNumToRender={3}
         horizontal={true}

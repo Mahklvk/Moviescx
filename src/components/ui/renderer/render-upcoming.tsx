@@ -5,11 +5,17 @@ import { StyleSheet, View } from "react-native";
 import { ThemedText } from "../../themed-text";
 import { ThemedView } from "../../themed-view";
 import { LinearGradient } from "expo-linear-gradient";
+import CardSkeleton from "../skeleton";
 type Props = {
-    item: Movie
+  item: Movie
+  isLoading?: boolean;
 }
 
-export const RenderUpcoming: React.FC<Props> = React.memo(({ item }) => {
+export const RenderUpcoming: React.FC<Props> = React.memo(
+   ({ item, isLoading }) => {
+      if (isLoading) {
+        return <CardSkeleton type="upcoming"/>;
+      }
   return (
     <ThemedView className="items-center" style={styles.card}>
             <Image
