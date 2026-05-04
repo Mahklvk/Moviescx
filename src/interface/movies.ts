@@ -10,7 +10,7 @@ export default interface Movie {
     'original_title': string,
     'overview': string,
     'media_type': string,
-    'genre_ids': string[],
+    'genre_ids': number[],
     'popularity': number,
     'release_date': Date,
     'vote_average': Double,
