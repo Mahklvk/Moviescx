@@ -1,21 +1,23 @@
-import { Trending } from "@/api/trending";
+import { apiMovie } from "@/api/movies";
 import Movie from "@/interface/movies";
-import Tv from "@/interface/tv";
 import { useQuery } from "@tanstack/react-query";
-import { useCallback, useState } from "react";
-import { FlatList, TouchableOpacity, View } from "react-native";
-import { ThemedText } from "../themed-text";
+import { FlatList, View } from "react-native";
 import { RenderNowPlaying } from "./renderer/render-now-playing";
 
-type Media = Movie
+type Media = Movie;
 
 export function NowPlaying() {
-
   const { data: nowPlaying = [], isLoading } = useQuery({
     queryKey: ["nowPlaying"],
-    queryFn: () => Trending.NowPlaying(),
+    queryFn: () => apiMovie.NowPlaying(),
     select: (data) => data.results,
     staleTime: 1000 * 60 * 5, // cache 5 menit
+  });
+
+  const { data: genreData } = useQuery({
+    queryKey: ["genres",],
+    queryFn: () => apiMovie.Genres(),
+    staleTime: 1000 * 60 * 5, 
   });
 
   return (
@@ -25,7 +27,7 @@ export function NowPlaying() {
         data={isLoading ? Array(5).fill({}) : nowPlaying}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => (
-          <RenderNowPlaying item={item as Media} isLoading={isLoading} />
+          <RenderNowPlaying item={item as Media} genres={genreData?.genres || []} isLoading={isLoading} />
         )}
         indicatorStyle="white"
         initialNumToRender={3}
