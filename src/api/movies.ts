@@ -1,10 +1,24 @@
 import { Interceptor } from "./interceptor";
-
-export const Trending = {
-  Trending: async (time_window: "day" | "week", data: "movie" | "tv") => {
+type SearchMoviesParams = {
+  query: string;
+  page?: number;
+};
+export const apiMovie = {
+  Trending: async () => {
     try {
       const response = await Interceptor().get(
-        `/3/trending/${data}/${time_window}?language=en-US'`,
+        `/3/trending/movie/day`,
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed to fetch movie");
+    }
+  },
+
+  Genres: async () => {
+    try {
+      const response = await Interceptor().get(
+        '/3/genre/movie/list'
       );
       return response.data;
     } catch (error) {
@@ -34,4 +48,15 @@ export const Trending = {
       throw new Error("upcoming gagal");
     }
   },
+
+  Search: async (params: SearchMoviesParams) => {
+    try {
+      const response = await Interceptor().get("/3/search/movie", {
+        params,
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error('gagal ambil data njir')
+    }
+  }
 };
