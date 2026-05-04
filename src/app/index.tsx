@@ -33,7 +33,7 @@ export default function HomeScreen() {
               height: 400,
             }}
           />
-            <ThemedText className="text-center mt-5">Trending</ThemedText>
+            <ThemedText className="text-center mt-5">Daily Trending</ThemedText>
           <Trendings />
           <ThemedText className="text-center">Now playing</ThemedText>
           <NowPlaying />
