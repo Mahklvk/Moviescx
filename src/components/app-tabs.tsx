@@ -22,8 +22,8 @@ export default function AppTabs() {
         />
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger name="tv">
-        <NativeTabs.Trigger.Label>Televisions</NativeTabs.Trigger.Label>
+      <NativeTabs.Trigger name="discover">
+        <NativeTabs.Trigger.Label>Discover</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon
           src={require("@/assets/images/tabIcons/explore.png")}
           renderingMode="template"
