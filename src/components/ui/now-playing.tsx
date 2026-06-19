@@ -11,7 +11,7 @@ export function NowPlaying() {
     queryKey: ["nowPlaying"],
     queryFn: () => apiMovie.NowPlaying(),
     select: (data) => data.results,
-    staleTime: 1000 * 60 * 5, // cache 5 menit
+    staleTime: 1000 * 60 * 5,
   });
 
   const { data: genreData } = useQuery({

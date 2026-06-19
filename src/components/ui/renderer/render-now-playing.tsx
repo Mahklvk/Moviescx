@@ -8,7 +8,7 @@ import CardSkeleton from "../skeleton";
 import { Genres } from "../genre";
 import Genre from "@/interface/genre";
 import Feather from "@expo/vector-icons/Feather";
-
+import { useRouter } from "expo-router";
 type Props = {
   item: Movie;
   genres: Genre[];
@@ -20,8 +20,15 @@ export const RenderNowPlaying: React.FC<Props> = React.memo(
     if (isLoading) {
       return <CardSkeleton type="nowPlaying"/>;
     }
+
+     const handlePress = (movie_id: number) => {
+          router.push(`/detailMovie?movie_id=${movie_id}`);
+        };
+    
+        const router = useRouter();
     return (
       <ThemedView className="items-center" style={styles.card}>
+        <TouchableOpacity onPress={() => handlePress(item.id)}>
         <View className="absolute top-2 left-2 z-40">
           <TouchableOpacity>
             <Feather name="bookmark" size={44} color={"#89b4fa"} />
@@ -52,8 +59,10 @@ export const RenderNowPlaying: React.FC<Props> = React.memo(
           {item.overview}
         </ThemedText>
         </View>
-        <Genres genres={genres} item={item} />
+          <Genres genres={genres} item={item} />
+          </TouchableOpacity>
       </ThemedView>
+      
     );
   },
 );
