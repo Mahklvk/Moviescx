@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FlatList, View } from "react-native";
 
 import { useSearchMovies } from "@/hooks/use-search-movies";
@@ -11,16 +10,19 @@ import CardSkeleton from "./skeleton";
 import { apiMovie } from "@/api/movies";
 import { useQuery } from "@tanstack/react-query";
 
-export function SearchMovies() {
-  const [searchQuery, setSearchQuery] = useState("");
+type Props = {
+  searchQuery: string;
+  setSearchQuery: (value: string) => void;
+};
 
-    const { data, isLoading } = useSearchMovies(searchQuery);
-    
-    const { data: genreData } = useQuery({
-    queryKey: ["genres",],
+export function SearchMovies({ searchQuery, setSearchQuery }: Props) {
+  const { data, isLoading } = useSearchMovies(searchQuery);
+
+  const { data: genreData } = useQuery({
+    queryKey: ["genres"],
     queryFn: () => apiMovie.Genres(),
-    staleTime: 1000 * 60 * 5, 
-    });
+    staleTime: 1000 * 60 * 5,
+  });
 
   const movies = data?.results ?? [];
 
@@ -55,7 +57,9 @@ export function SearchMovies() {
         keyExtractor={(item) => item.id.toString()}
         numColumns={2}
         columnWrapperStyle={{ justifyContent: "space-between" }}
-        contentContainerStyle={{ padding: 16 }}
+        contentContainerStyle={{
+          paddingBottom: 100,
+        }}
         renderItem={({ item }) => (
           <RenderSearch item={item} genres={genreData?.genres} />
         )}
@@ -71,7 +75,8 @@ export function SearchMovies() {
         onChangeText={setSearchQuery}
         style={{ margin: 16 }}
       />
-      {renderContent()}
+
+      {searchQuery ? renderContent() : null}
     </View>
   );
 }
