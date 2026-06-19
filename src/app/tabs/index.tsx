@@ -1,6 +1,6 @@
 import { ThemedText } from "@/components/themed-text";
 import { SafeAreaView } from "react-native-safe-area-context";
-import "../../input.css";
+import "../../../input.css";
 
 import { HeaderSearch } from "@/components/ui/header-search";
 import { NowPlaying } from "@/components/ui/now-playing";

@@ -1,22 +1,26 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import React from 'react';
-import { useColorScheme } from 'react-native';
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
+import React from "react";
+import { useColorScheme } from "react-native";
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import { AnimatedSplashOverlay } from "@/components/animated-icon";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Stack } from "expo-router";
 
 const queryClient = new QueryClient();
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   return (
     <QueryClientProvider client={queryClient}>
-
-    
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <AnimatedSplashOverlay />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="tabs" />
+        </Stack>
       </ThemeProvider>
-      </QueryClientProvider>
+    </QueryClientProvider>
   );
 }
