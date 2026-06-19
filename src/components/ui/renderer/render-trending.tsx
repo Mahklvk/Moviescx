@@ -28,12 +28,6 @@ export const RenderTrending: React.FC<Props> = React.memo(
     return (
       <ThemedView className="m-5 border-2 border-[#89b4fa] rounded-xl">
         <TouchableOpacity onPress={() => handlePress(item.id)}>
-          <View className="absolute top-2 left-2 z-40">
-            <TouchableOpacity>
-              <Feather name="bookmark" size={34} color={"#89b4fa"} />
-            </TouchableOpacity>
-          </View>
-
           <View className="absolute right-[-10px] z-40">
             <View className="border border-[#89b4fa] rounded-full px-2 py-1 bg-[#b4befe]">
               <ThemedText

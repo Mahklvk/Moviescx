@@ -29,11 +29,7 @@ export const RenderNowPlaying: React.FC<Props> = React.memo(
     return (
       <ThemedView className="items-center" style={styles.card}>
         <TouchableOpacity onPress={() => handlePress(item.id)}>
-        <View className="absolute top-2 left-2 z-40">
-          <TouchableOpacity>
-            <Feather name="bookmark" size={44} color={"#89b4fa"} />
-          </TouchableOpacity>
-        </View>
+
 
         <View className="absolute right-0 z-40">
           <View className="border border-[#89b4fa] rounded-full px-2 py-1 bg-[#b4befe]">
