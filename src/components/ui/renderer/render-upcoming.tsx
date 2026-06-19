@@ -2,11 +2,12 @@ import Genre from "@/interface/genre";
 import Movie from "@/interface/movies";
 import { Image } from "expo-image";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { ThemedText } from "../../themed-text";
 import { ThemedView } from "../../themed-view";
 import { Genres } from "../genre";
 import CardSkeleton from "../skeleton";
+import { useRouter } from "expo-router";
 type Props = {
   item: Movie;
   genres: Genre[];
@@ -18,8 +19,14 @@ export const RenderUpcoming: React.FC<Props> = React.memo(
     if (isLoading) {
       return <CardSkeleton type="upcoming" />;
     }
+    const handlePress = (movie_id: number) => {
+          router.push(`/detailMovie?movie_id=${movie_id}`);
+        };
+    
+        const router = useRouter();
     return (
       <ThemedView className="items-center" style={styles.card}>
+        <TouchableOpacity onPress={() => handlePress(item.id)}>
         <Image
           source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }}
           style={styles.poster}
@@ -42,7 +49,8 @@ export const RenderUpcoming: React.FC<Props> = React.memo(
             {item.overview}
           </ThemedText>
         </View>
-        <Genres genres={genres} item={item} />
+          <Genres genres={genres} item={item} />
+          </TouchableOpacity>
       </ThemedView>
     );
   },

@@ -8,7 +8,7 @@ import { ThemedText } from "../../themed-text";
 import { ThemedView } from "../../themed-view";
 import { Genres } from "../genre";
 import CardSkeleton from "../skeleton";
-
+import { useRouter } from "expo-router";
 type Props = {
   item: Movie;
   genres: Genre[];
@@ -19,16 +19,22 @@ export const RenderSearch: React.FC<Props> = React.memo(
     if (isLoading) {
       return <CardSkeleton type="trending" />;
     }
+    const handlePress = (movie_id: number) => {
+          router.push(`/detailMovie?movie_id=${movie_id}`);
+        };
+    
+        const router = useRouter();
 
     return (
-      <ThemedView className="m-5 border-2 border-[#89b4fa] rounded-xl">
+      <ThemedView className="m-4 border-2 border-[#89b4fa] rounded-xl">
+        <TouchableOpacity onPress={() => handlePress(item.id)}>
         <View className="absolute top-2 left-2 z-40">
           <TouchableOpacity>
             <Feather name="bookmark" size={34} color={"#89b4fa"} />
           </TouchableOpacity>
         </View>
 
-        <View className="absolute right-2 z-40">
+        <View className="absolute right-[-10px] z-40">
           <View className="border border-[#89b4fa] rounded-full px-2 py-1 bg-[#b4befe]">
             <ThemedText
               style={{
@@ -47,11 +53,12 @@ export const RenderSearch: React.FC<Props> = React.memo(
             style={styles.poster}
             alt={item.title}
           />
-          <ThemedText style={styles.title} numberOfLines={2}>
+          <ThemedText style={styles.title} numberOfLines={1}>
             {item.title}
           </ThemedText>
           <Genres genres={genres} item={item} />
-        </View>
+          </View>
+          </TouchableOpacity>
       </ThemedView>
     );
   },
@@ -59,7 +66,7 @@ export const RenderSearch: React.FC<Props> = React.memo(
 
 const styles = StyleSheet.create({
   poster: {
-    width: 200,
+    width: 170,
     height: 300,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
