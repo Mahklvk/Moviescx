@@ -1,24 +1,19 @@
-import { TopRated } from "@/api/top-rated";
-import Tv from "@/interface/tv";
+import { apiMovie } from "@/api/movies";
+import Movie from "@/interface/movies";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { RenderTopRated } from "./renderer/render-top-rated";
 
-type Media = Tv;
+type Media = Movie;
 export function Carousels() {
   const { data: topRate = [], isLoading } = useQuery({
     queryKey: ["topRated"],
-    queryFn: TopRated.topRated,
+    queryFn: apiMovie.TopRated,
     select: (data) => data.results,
     staleTime: 1000 * 60 * 10,
   });
-
-  const renderTopRated = useCallback(({ item }: { item: Tv }) => {
-    return <RenderTopRated item={item} />;
-  }, []);
-
   return (
     <View>
       <Carousel
