@@ -2,7 +2,7 @@ import { apiMovie } from "@/api/movies";
 import Movie from "@/interface/movies";
 import { useQuery } from "@tanstack/react-query";
 import { FlatList, View } from "react-native";
-import { RenderNowPlaying } from "./renderer/render-now-playing";
+import { RenderNowPlaying } from "./render-now-playing";
 
 type Media = Movie;
 

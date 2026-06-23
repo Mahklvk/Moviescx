@@ -1,13 +1,13 @@
 import Genre from "@/interface/genre";
 import Movie from "@/interface/movies";
 import { Image } from "expo-image";
-import React from "react";
-import { StyleSheet, View, TouchableOpacity } from "react-native";
-import { ThemedText } from "../../themed-text";
-import { ThemedView } from "../../themed-view";
-import { Genres } from "../genre";
-import CardSkeleton from "../skeleton";
 import { useRouter } from "expo-router";
+import React from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { ThemedText } from "../themed-text";
+import { ThemedView } from "../themed-view";
+import { Genres } from "../ui/genre";
+import CardSkeleton from "../ui/skeleton";
 type Props = {
   item: Movie;
   genres: Genre[];
@@ -20,37 +20,39 @@ export const RenderUpcoming: React.FC<Props> = React.memo(
       return <CardSkeleton type="upcoming" />;
     }
     const handlePress = (movie_id: number) => {
-          router.push(`/detailMovie?movie_id=${movie_id}`);
-        };
-    
-        const router = useRouter();
+      router.push(`/detailMovie?movie_id=${movie_id}`);
+    };
+
+    const router = useRouter();
     return (
       <ThemedView className="items-center" style={styles.card}>
         <TouchableOpacity onPress={() => handlePress(item.id)}>
-        <Image
-          source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }}
-          style={styles.poster}
-          alt={item.title}
-        />
-        <ThemedText
-          type="link"
-          className="text-center my-2"
-          style={styles.title}
-          numberOfLines={1}
-        >
-          {item.title}
-        </ThemedText>
-        <View style={styles.overview} className="border-t-2 border-[#89b4fa]">
+          <Image
+            source={{
+              uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+            }}
+            style={styles.poster}
+            alt={item.title}
+          />
           <ThemedText
-            type="small"
-            numberOfLines={2}
-            className="text-justify me-5 ms-5"
+            type="link"
+            className="text-center my-2"
+            style={styles.title}
+            numberOfLines={1}
           >
-            {item.overview}
+            {item.title}
           </ThemedText>
-        </View>
+          <View style={styles.overview} className="border-t-2 border-[#89b4fa]">
+            <ThemedText
+              type="small"
+              numberOfLines={2}
+              className="text-justify me-5 ms-5"
+            >
+              {item.overview}
+            </ThemedText>
+          </View>
           <Genres genres={genres} item={item} />
-          </TouchableOpacity>
+        </TouchableOpacity>
       </ThemedView>
     );
   },

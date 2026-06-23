@@ -1,23 +1,23 @@
 import Genre from "@/interface/genre";
 import Movie from "@/interface/movies";
-import Feather from "@expo/vector-icons/Feather";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { ThemedText } from "../../themed-text";
-import { ThemedView } from "../../themed-view";
-import { Genres } from "../genre";
-import CardSkeleton from "../skeleton";
+import { ThemedText } from "../themed-text";
+import { ThemedView } from "../themed-view";
+import { Genres } from "../ui/genre";
+import CardSkeleton from "../ui/skeleton";
 type Props = {
   item: Movie;
   genres: Genre[];
   isLoading?: boolean;
 };
-export const RenderTrending: React.FC<Props> = React.memo(
-  ({ item, genres, isLoading }) => {
+
+export const RenderNowPlaying: React.FC<Props> = React.memo(
+  ({ genres, item, isLoading }) => {
     if (isLoading) {
-      return <CardSkeleton type="trending" />;
+      return <CardSkeleton type="nowPlaying" />;
     }
 
     const handlePress = (movie_id: number) => {
@@ -26,9 +26,9 @@ export const RenderTrending: React.FC<Props> = React.memo(
 
     const router = useRouter();
     return (
-      <ThemedView className="m-5 border-2 border-[#89b4fa] rounded-xl">
+      <ThemedView className="items-center" style={styles.card}>
         <TouchableOpacity onPress={() => handlePress(item.id)}>
-          <View className="absolute right-[-10px] z-40">
+          <View className="absolute right-0 z-40">
             <View className="border border-[#89b4fa] rounded-full px-2 py-1 bg-[#b4befe]">
               <ThemedText
                 style={{
@@ -39,31 +39,31 @@ export const RenderTrending: React.FC<Props> = React.memo(
               </ThemedText>
             </View>
           </View>
-          <View className="items-center">
-            <Image
-              source={{
-                uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
-              }}
-              style={styles.poster}
-              alt={item.title}
-            />
-            <ThemedText style={styles.title} numberOfLines={1} className="my-2">
-              {item.title}
-            </ThemedText>
-            <View
-              style={styles.overview}
-              className="border-t-2 border-[#89b4fa]"
+          <Image
+            source={{
+              uri: `https://image.tmdb.org/t/p/w500${item.backdrop_path}`,
+            }}
+            style={styles.poster}
+            alt={item.title}
+          />
+          <ThemedText
+            type="link"
+            className="text-center"
+            style={styles.title}
+            numberOfLines={1}
+          >
+            {item.title}
+          </ThemedText>
+          <View style={styles.overview} className="border-t-2 border-[#89b4fa]">
+            <ThemedText
+              type="small"
+              numberOfLines={2}
+              className="text-justify me-5 ms-5"
             >
-              <ThemedText
-                type="small"
-                numberOfLines={2}
-                className="text-justify me-5 ms-5"
-              >
-                {item.overview}
-              </ThemedText>
-            </View>
-            <Genres genres={genres} item={item} />
+              {item.overview}
+            </ThemedText>
           </View>
+          <Genres genres={genres} item={item} />
         </TouchableOpacity>
       </ThemedView>
     );
@@ -71,18 +71,25 @@ export const RenderTrending: React.FC<Props> = React.memo(
 );
 
 const styles = StyleSheet.create({
-  poster: {
-    width: 200,
+  card: {
+    alignItems: "center",
+    margin: 20,
+    borderColor: "#89b4fa",
+    borderWidth: 2,
+    borderRadius: 10,
+    width: "auto",
     height: 300,
+  },
+  poster: {
+    width: 300,
+    height: 200,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
   title: {
-    width: 200,
+    width: 300,
     fontWeight: "bold",
-    textAlign: "center",
   },
-
   genreContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -105,6 +112,6 @@ const styles = StyleSheet.create({
   },
 
   overview: {
-    width: 200,
+    width: 300,
   },
 });

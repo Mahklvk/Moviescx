@@ -4,8 +4,8 @@ import { useSearchMovies } from "@/hooks/use-search-movies";
 
 import { Searchbar } from "react-native-paper";
 import { ThemedText } from "../themed-text";
-import { RenderSearch } from "./renderer/render-search";
-import CardSkeleton from "./skeleton";
+import CardSkeleton from "../ui/skeleton";
+import { RenderSearch } from "./render-search";
 
 import { apiMovie } from "@/api/movies";
 import { useQuery } from "@tanstack/react-query";

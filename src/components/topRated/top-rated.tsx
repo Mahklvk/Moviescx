@@ -1,10 +1,9 @@
 import { apiMovie } from "@/api/movies";
 import Movie from "@/interface/movies";
 import { useQuery } from "@tanstack/react-query";
-import { useCallback } from "react";
 import { View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
-import { RenderTopRated } from "./renderer/render-top-rated";
+import { RenderTopRated } from "./render-top-rated";
 
 type Media = Movie;
 export function Carousels() {

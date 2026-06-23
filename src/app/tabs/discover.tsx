@@ -1,4 +1,4 @@
-import { DiscoverMovie } from "@/components/ui/discover-movie";
+import { DiscoverMovie } from "@/components/discovery/discover-movie";
 import { HeaderNoSearch } from "@/components/ui/header-no-search";
 
 import { useTheme } from "@/hooks/use-theme";

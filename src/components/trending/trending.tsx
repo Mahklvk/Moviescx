@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
 import { ThemedText } from "../themed-text";
-import { RenderTrending } from "./renderer/render-trending";
+import { RenderTrending } from "./render-trending";
 
 export function Trendings() {
 

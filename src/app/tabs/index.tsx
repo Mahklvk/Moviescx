@@ -2,25 +2,25 @@ import { ThemedText } from "@/components/themed-text";
 import { SafeAreaView } from "react-native-safe-area-context";
 import "../../../input.css";
 
+import { NowPlaying } from "@/components/nowPlaying/now-playing";
+import { Trendings } from "@/components/trending/trending";
 import { HeaderSearch } from "@/components/ui/header-search";
-import { NowPlaying } from "@/components/ui/now-playing";
-import { Trendings } from "@/components/ui/trending";
 import { useTheme } from "@/hooks/use-theme";
 import React from "react";
 
 import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView, View } from "react-native";
 
-import { Carousels } from "@/components/ui/carousel";
-import { Upcoming } from "@/components/ui/upcoming";
+import { Carousels } from "@/components/topRated/top-rated";
+import { Upcoming } from "@/components/upcoming/upcoming";
 
 export default function HomeScreen() {
   const theme = useTheme();
 
   return (
     <SafeAreaView style={[{ backgroundColor: theme.background }]}>
-        <HeaderSearch />
-        <ScrollView>
+      <HeaderSearch />
+      <ScrollView>
         <Carousels />
         <View>
           <LinearGradient
@@ -33,14 +33,14 @@ export default function HomeScreen() {
               height: 400,
             }}
           />
-            <ThemedText className="text-center mt-5">Daily Trending</ThemedText>
+          <ThemedText className="text-center mt-5">Daily Trending</ThemedText>
           <Trendings />
           <ThemedText className="text-center">Now playing</ThemedText>
           <NowPlaying />
           <ThemedText className="text-center">Upcoming</ThemedText>
           <Upcoming />
         </View>
-    </ScrollView>
-      </SafeAreaView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

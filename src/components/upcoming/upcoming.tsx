@@ -3,7 +3,7 @@ import Movie from "@/interface/movies";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { FlatList, View } from "react-native";
-import { RenderUpcoming } from "./renderer/render-upcoming";
+import { RenderUpcoming } from "./render-upcoming";
 
 type Media = Movie;
 

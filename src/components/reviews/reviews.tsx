@@ -3,7 +3,7 @@ import { Results } from "@/interface/reviews";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import React from "react";
 import { FlatList, Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import { RenderReviews } from "./renderer/render-reviews";
+import { RenderReviews } from "./render-reviews";
 
 type Props = {
   review: Results[];

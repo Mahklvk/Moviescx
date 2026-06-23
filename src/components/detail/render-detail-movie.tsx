@@ -1,6 +1,7 @@
 import { apiMovie } from "@/api/movies";
 import CircularRating from "@/components/circular-progress";
 import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
 import Genre from "@/interface/genre";
 import MovieDetail from "@/interface/movie-detail";
 import { useQuery } from "@tanstack/react-query";
@@ -9,10 +10,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
-import { CastBadges } from "../cast";
-import { StreamingPlatforms } from "../streaming-platforms";
-import { ThemedView } from "@/components/themed-view";
-import { Reviews } from "../reviews";
+import { Reviews } from "../reviews/reviews";
+import { CastBadges } from "../ui/cast";
+import { StreamingPlatforms } from "../ui/streaming-platforms";
 type Props = {
   genres: Genre[];
   isLoading?: boolean;
@@ -52,7 +52,7 @@ export function RenderDetailMovie() {
     staleTime: 1000 * 60 * 5,
   });
 
-  const idProviders = watchProviders?.results.ID
+  const idProviders = watchProviders?.results.ID;
   if (isLoading) {
     return <ThemedText>Loading...</ThemedText>;
   }
@@ -121,22 +121,22 @@ export function RenderDetailMovie() {
           Casts
         </ThemedText>
         <CastBadges cast={cast?.cast ?? []} />
-       
+
         {!watchProviders?.results?.ID && (
           <ThemedView>
-            <ThemedText style={{
-            fontWeight: "bold",
-            fontSize: 24,
-            marginLeft: 10,
-            marginTop: 10,
-          }}>
+            <ThemedText
+              style={{
+                fontWeight: "bold",
+                fontSize: 24,
+                marginLeft: 10,
+                marginTop: 10,
+              }}
+            >
               Streaming
-          </ThemedText>
-          <ThemedText
-            style={{ fontSize: 12, opacity: 0.5, marginLeft: 10 }}
-          >
-            Tidak tersedia di Indonesia
-          </ThemedText>
+            </ThemedText>
+            <ThemedText style={{ fontSize: 12, opacity: 0.5, marginLeft: 10 }}>
+              Tidak tersedia di Indonesia
+            </ThemedText>
           </ThemedView>
         )}
 
@@ -147,7 +147,6 @@ export function RenderDetailMovie() {
             >
               Streaming
             </ThemedText>
-
 
             <StreamingPlatforms
               providers={idProviders.flatrate ?? []}
@@ -164,19 +163,18 @@ export function RenderDetailMovie() {
           </View>
         )}
       </View>
-         <ThemedText
-          style={{
-            fontWeight: "bold",
-            fontSize: 24,
-            marginLeft: 10,
-            marginTop: 10,
-          }}
-        >
-          Reviews
+      <ThemedText
+        style={{
+          fontWeight: "bold",
+          fontSize: 24,
+          marginLeft: 10,
+          marginTop: 10,
+        }}
+      >
+        Reviews
       </ThemedText>
-      <Reviews review={reviews?.reviews ?? []}  />
+      <Reviews review={reviews?.reviews ?? []} />
     </View>
-    
   );
 }
 

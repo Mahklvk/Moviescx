@@ -1,11 +1,11 @@
 import { Discover } from "@/api/discovery";
 import { apiMovie } from "@/api/movies";
-import { SearchMovies } from "@/components/ui/search";
+import { SearchMovies } from "@/components/search/search";
 import Movie from "@/interface/movies";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { FlatList } from "react-native";
-import { RenderDiscoverMovie } from "./renderer/render-discover-movie";
+import { RenderDiscoverMovie } from "./render-discover-movie";
 export function DiscoverMovie() {
   const { data: discover = [], isLoading } = useQuery({
     queryKey: ["discover"],

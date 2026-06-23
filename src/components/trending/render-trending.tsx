@@ -5,16 +5,16 @@ import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { ThemedText } from "../../themed-text";
-import { ThemedView } from "../../themed-view";
-import { Genres } from "../genre";
-import CardSkeleton from "../skeleton";
+import { ThemedText } from "../themed-text";
+import { ThemedView } from "../themed-view";
+import { Genres } from "../ui/genre";
+import CardSkeleton from "../ui/skeleton";
 type Props = {
   item: Movie;
   genres: Genre[];
   isLoading?: boolean;
 };
-export const RenderDiscoverMovie: React.FC<Props> = React.memo(
+export const RenderTrending: React.FC<Props> = React.memo(
   ({ item, genres, isLoading }) => {
     if (isLoading) {
       return <CardSkeleton type="trending" />;
@@ -26,9 +26,8 @@ export const RenderDiscoverMovie: React.FC<Props> = React.memo(
 
     const router = useRouter();
     return (
-      <ThemedView className="m-4 border-2 border-[#89b4fa] rounded-xl">
+      <ThemedView className="m-5 border-2 border-[#89b4fa] rounded-xl">
         <TouchableOpacity onPress={() => handlePress(item.id)}>
-
           <View className="absolute right-[-10px] z-40">
             <View className="border border-[#89b4fa] rounded-full px-2 py-1 bg-[#b4befe]">
               <ThemedText
@@ -48,9 +47,21 @@ export const RenderDiscoverMovie: React.FC<Props> = React.memo(
               style={styles.poster}
               alt={item.title}
             />
-            <ThemedText style={styles.title} numberOfLines={1}>
+            <ThemedText style={styles.title} numberOfLines={1} className="my-2">
               {item.title}
             </ThemedText>
+            <View
+              style={styles.overview}
+              className="border-t-2 border-[#89b4fa]"
+            >
+              <ThemedText
+                type="small"
+                numberOfLines={2}
+                className="text-justify me-5 ms-5"
+              >
+                {item.overview}
+              </ThemedText>
+            </View>
             <Genres genres={genres} item={item} />
           </View>
         </TouchableOpacity>
@@ -61,13 +72,13 @@ export const RenderDiscoverMovie: React.FC<Props> = React.memo(
 
 const styles = StyleSheet.create({
   poster: {
-    width: 175,
+    width: 200,
     height: 300,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
   title: {
-    width: 140,
+    width: 200,
     fontWeight: "bold",
     textAlign: "center",
   },
@@ -91,5 +102,9 @@ const styles = StyleSheet.create({
 
   badgeText: {
     fontSize: 10,
+  },
+
+  overview: {
+    width: 200,
   },
 });
