@@ -1,6 +1,6 @@
 import { ThemedText } from "@/components/themed-text";
 import { Results } from "@/interface/reviews";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { Feather } from '@react-native-vector-icons/feather';
 import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 
@@ -23,8 +23,8 @@ export const RenderReviews: React.FC<Props> = React.memo(({ review }) => {
           <Image source={{ uri: avatar }} style={styles.avatar} />
         ) : (
           <View style={styles.avatarPlaceholder}>
-            <FontAwesome6
-              name="circle-user"
+            <Feather
+              name="user"
               size={50}
               color="#d9d9d9"
             />

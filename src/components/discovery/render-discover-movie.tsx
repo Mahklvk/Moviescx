@@ -1,6 +1,5 @@
 import Genre from "@/interface/genre";
 import Movie from "@/interface/movies";
-import Feather from "@expo/vector-icons/Feather";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import React from "react";
