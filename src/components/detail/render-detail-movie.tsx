@@ -50,8 +50,8 @@ export function RenderDetailMovie() {
     queryKey: ["review", id],
     queryFn: () => apiMovie.Reviews(Number(id)),
     staleTime: 1000 * 60 * 5,
+    select: (data) => data.results,
   });
-
   const idProviders = watchProviders?.results.ID;
   if (isLoading) {
     return <ThemedText>Loading...</ThemedText>;
@@ -80,7 +80,7 @@ export function RenderDetailMovie() {
         />
         <View className="flex-1 ml-4 mb-3 justify-center">
           <CircularRating rating={detailMovie.vote_average} />
-          <ThemedText style={styles.title}>{detailMovie.title}</ThemedText>
+          <ThemedText style={styles.title}>{detailMovie.title} ({detailMovie.release_date.slice(0,4)})</ThemedText>
           <FlatList
             data={genre?.genres ?? []}
             keyExtractor={(item) => item.id.toString()}
@@ -104,7 +104,7 @@ export function RenderDetailMovie() {
         </ThemedText>
 
         <TouchableOpacity onPress={() => setExpandedText(!expandedText)}>
-          <ThemedText className="text-blue-400 mt-2">
+          <ThemedText className="text-blue-400 mt-2 underline bold">
             {expandedText ? "Read less" : "Read more"}
           </ThemedText>
         </TouchableOpacity>
@@ -173,7 +173,7 @@ export function RenderDetailMovie() {
       >
         Reviews
       </ThemedText>
-      <Reviews review={reviews?.reviews ?? []} />
+      <Reviews review={reviews ?? []} />
     </View>
   );
 }
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
 
   title: {
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 24,
     marginBottom: 10,
   },
   overview: {

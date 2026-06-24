@@ -1,9 +1,8 @@
 import { ThemedText } from "@/components/themed-text";
 import { Results } from "@/interface/reviews";
-import { Feather } from '@react-native-vector-icons/feather';
-import React from "react";
-import { Image, StyleSheet, View } from "react-native";
-
+import { Feather } from "@react-native-vector-icons/feather";
+import React, { useState } from "react";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 type Props = {
   review: Results;
 };
@@ -11,6 +10,7 @@ type Props = {
 const IMAGE_URL = "https://image.tmdb.org/t/p/w185";
 
 export const RenderReviews: React.FC<Props> = React.memo(({ review }) => {
+  const [expandedText, setExpandedText] = useState(false);
 
   const avatar = review.author_details?.avatar_path
     ? `${IMAGE_URL}${review.author_details.avatar_path}`
@@ -23,11 +23,7 @@ export const RenderReviews: React.FC<Props> = React.memo(({ review }) => {
           <Image source={{ uri: avatar }} style={styles.avatar} />
         ) : (
           <View style={styles.avatarPlaceholder}>
-            <Feather
-              name="user"
-              size={50}
-              color="#d9d9d9"
-            />
+            <Feather name="user" size={24 * 2} />
           </View>
         )}
 
@@ -42,27 +38,34 @@ export const RenderReviews: React.FC<Props> = React.memo(({ review }) => {
         </View>
 
         <View style={styles.ratingContainer}>
-          <ThemedText style={styles.ratingLabel}>
-            RATING
-          </ThemedText>
+          <ThemedText style={styles.ratingLabel}>Rating</ThemedText>
 
           <ThemedText style={styles.rating}>
-            {review.author_details?.rating ?? "-"}
+            {review.author_details?.rating ?? "-"} 
           </ThemedText>
         </View>
       </View>
 
-      <ThemedText numberOfLines={6} style={styles.content}>
+      <ThemedText numberOfLines={expandedText ? undefined : 6}>
         {review.content}
       </ThemedText>
 
+      <TouchableOpacity onPress={() => setExpandedText(!expandedText)}>
+        <ThemedText className="text-blue-400 mt-2 underline bold">
+          {expandedText ? "Read less" : "Read more"}
+        </ThemedText>
+      </TouchableOpacity>
+      {/* <ThemedText numberOfLines={6} style={styles.content}>
+        {review.content}
+      </ThemedText> */}
+
       <View style={styles.footer}>
         <ThemedText style={styles.date}>
-          {review.created_at}
+          {review.created_at.slice(0, 10)}
         </ThemedText>
 
         <ThemedText style={styles.date}>
-          {review.updated_at}
+          {review.updated_at.slice(0, 10)}
         </ThemedText>
       </View>
     </View>
@@ -71,7 +74,8 @@ export const RenderReviews: React.FC<Props> = React.memo(({ review }) => {
 
 const styles = StyleSheet.create({
   card: {
-    marginVertical: 8,
+    marginVertical: 10,
+    marginHorizontal:10,
     padding: 16,
     borderWidth: 2,
     borderColor: "#1483ff",
